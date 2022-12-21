@@ -1,18 +1,24 @@
 # Using CodeMirror with Angular
 
+CodeMirror is a code editor component for the web. It can be used in websites to implement a text input field with support for many editing features, and has a rich programming interface to allow further extension.
+
+It can be easily integrated into an Angular application using **ngx-codemirror**. It's an angular component wrapper for CodeMirror. In these steps, we will go through the steps needed to use CodeMirror with Angular.
+
 ## Package installation
 
-Since the last version of ngx-codemirror (6.0.0) only supports Angular 15.0.0-0, we could install the previous version of ngx-codemirror (5.1.1).
+We need to install the `@ctrl/ngx-codemirror` package. This package provides an Angular component that wraps around the CodeMirror editor. Additionally, we also need to install the codemirror package, which is a peer dependency of `@ctrl/ngx-codemirror`
 
-codemirror is a peer dependency and must also be installed
+We can install both packages using the following command:
+`npm install @ctrl/ngx-codemirror codemirror`
 
+Note that the latest version of @ctrl/ngx-codemirror (6.0.0) only supports Angular 15.0.0-0. If you are using a different version of Angular, you can install the previous version of @ctrl/ngx-codemirror (5.1.1) instead.
 `npm install @ctrl/ngx-codemirror@5.1.1 codemirror@5`
 
-## 1. Use
+## Use
 
-Import CodemirrorModule and FormsModule and bring in the codemirror files for parsing the language you wish to use.
+To use the CodeMirror component in our Angular application, we need to first import the CodemirrorModule and FormsModule in our NgModule. We also need to bring in the necessary codemirror files for parsing the language that we want to use.
 
-In your NgModule:
+In our NgModule:
 
 ```javascript
 import { FormsModule } from '@angular/forms';
@@ -28,14 +34,14 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
   ]
 ```
 
-In your main.ts or at the root of your application
+In the main entry point of our application (e.g. `main.ts`), we can import the necessary language files for CodeMirror.
 
 ```javascript
 import "codemirror/mode/javascript/javascript";
 import "codemirror/mode/markdown/markdown";
 ```
 
-Use the component in `app.component.html`
+Then, we can use the `ngx-codemirror` component in our template (e.g. `app.component.html`):
 
 ```javascript
   <ngx-codemirror
@@ -47,7 +53,7 @@ Use the component in `app.component.html`
   </ngx-codemirror>
 ```
 
-An example of codeMirrorOptions
+Here, `codeMirrorOptions` is an object that contains the configuration options for the CodeMirror editor. Some possible options include `theme`, `mode`, `lineNumbers`, `lineWrapping`, `foldGutter`, `gutters`, `autoCloseBrackets`, `matchBrackets`, and `lint`.
 
 ```javascript
 codeMirrorOptions: any = {
@@ -71,20 +77,18 @@ codeMirrorOptions: any = {
 
 ## Styles
 
-<a href="https://codemirror.net/3/doc/manual.html#styling">Check the official documentation for more</a>
+> For further information, please refer to the official _[documentation](https://codemirror.net/3/doc/manual.html#styling)_.
 
-<a href="https://codemirror.net/examples/styling/">Example: Styling</a>
+> For styling examples, please see the following _[styling examples](https://codemirror.net/examples/styling/)_.
 
-Import the base css file in `styles.(s)css`
+To style the CodeMirror editor, we can import the necessary base CSS files in our stylesheet (e.g. `styles.scss`):
 
 ```css
 @import "~codemirror/lib/codemirror";
 @import "~codemirror/theme/material";
 ```
 
-**sizing** the codemirror container should be done using the class CodeMirror in `styles.(s)css`
-
-For example, CodeMirror is the outer element of the editor. This should be used for the editor width, height, borders and positioning. Can also be used to set styles that should hold for everything inside the editor (such as font and font size), or to set a background.
+We can also use the `.CodeMirror` class in our stylesheet to size the CodeMirror container. For example:
 
 ```scss
 .CodeMirror {
@@ -93,3 +97,18 @@ For example, CodeMirror is the outer element of the editor. This should be used 
   height: 80vh;
 }
 ```
+
+CodeMirror is the outer element of the editor. This should be used for the editor width, height, borders and positioning. Can also be used to set styles that should hold for everything inside the editor (such as font and font size), or to set a background.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+> Why did the JavaScript developer wear glasses?
+> Because he couldn't C#! 🤓
