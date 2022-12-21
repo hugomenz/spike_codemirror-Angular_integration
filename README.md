@@ -1,27 +1,95 @@
-# NgCodemirror
+# Using CodeMirror with Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.4.
+## Package installation
 
-## Development server
+Since the last version of ngx-codemirror (6.0.0) only supports Angular 15.0.0-0, we could install the previous version of ngx-codemirror (5.1.1).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+codemirror is a peer dependency and must also be installed
 
-## Code scaffolding
+`npm install @ctrl/ngx-codemirror@5.1.1 codemirror@5`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## 1. Use
 
-## Build
+Import CodemirrorModule and FormsModule and bring in the codemirror files for parsing the language you wish to use.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+In your NgModule:
 
-## Running unit tests
+```javascript
+import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+  // add to imports:
+  imports: [
+    BrowserModule,
+    FormsModule,
+    CodemirrorModule,
+    ...
+  ]
+```
 
-## Running end-to-end tests
+In your main.ts or at the root of your application
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```javascript
+import "codemirror/mode/javascript/javascript";
+import "codemirror/mode/markdown/markdown";
+```
 
-## Further help
+Use the component in `app.component.html`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```javascript
+  <ngx-codemirror
+    #codemirror
+    [options]="codeMirrorOptions"
+    [(ngModel)]="obj"
+    (ngModelChange)="setEditorContent($event)"
+  >
+  </ngx-codemirror>
+```
+
+An example of codeMirrorOptions
+
+```javascript
+codeMirrorOptions: any = {
+  theme: "idea",
+  mode: "application/ld+json",
+  lineNumbers: true, // Whether to show line numbers to the left of the editor
+  lineWrapping: true, // Whether CodeMirror should scroll or wrap for long lines.
+  foldGutter: true,
+  gutters: [
+    // Should be an array of CSS class names
+    "CodeMirror-linenumbers",
+    "CodeMirror-foldgutter",
+    "CodeMirror-lint-markers",
+  ],
+  autoCloseBrackets: true,
+  matchBrackets: true, // causes matching brackets to be highlighted whenever the cursor is next to them
+  lint: true, // Defines an interface component for showing linting warnings, with pluggable warning sources
+  // see https://codemirror.net/3/addon/lint/json-lint.js
+};
+```
+
+## Styles
+
+<a href="https://codemirror.net/3/doc/manual.html#styling">Check the official documentation for more</a>
+
+<a href="https://codemirror.net/examples/styling/">Example: Styling</a>
+
+Import the base css file in `styles.(s)css`
+
+```css
+@import "~codemirror/lib/codemirror";
+@import "~codemirror/theme/material";
+```
+
+**sizing** the codemirror container should be done using the class CodeMirror in `styles.(s)css`
+
+For example, CodeMirror is the outer element of the editor. This should be used for the editor width, height, borders and positioning. Can also be used to set styles that should hold for everything inside the editor (such as font and font size), or to set a background.
+
+```scss
+.CodeMirror {
+  // 80vh is just an example
+  // you can use px, rem and so one.
+  height: 80vh;
+}
+```
